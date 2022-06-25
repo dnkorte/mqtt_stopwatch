@@ -1,16 +1,15 @@
 """
-# MQTT-based handheld remote control for robots and similar devices
-
-# This runs on an Adafruit PyPortal Pynt and uses SeeSaw for most I/O devices
+# MQTT-based stopwatch / status display for robots and similar devices
 #
-# Author(s): Don Korte
-# Module:
+# Author(s):    Don Korte
+#               http://donstechstuff.com/
+# github:       https://github.com/dnkorte/
 #
-# github: https://github.com/dnkorte/
+# Module: device_communicator.py
 #
 # MIT License
 #
-# Copyright (c) 2020 Don Korte
+# Copyright (c) 2022 Don Korte
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -43,8 +42,6 @@ from adafruit_matrixportal.matrixportal import MatrixPortal
 import adafruit_esp32spi.adafruit_esp32spi_socket as socket
 
 import adafruit_minimqtt.adafruit_minimqtt as MQTT
-#import message_handler
-
 
 # Get wifi details and more from a secrets.py file
 try:
@@ -53,20 +50,15 @@ except ImportError:
     print("WiFi secrets are kept in secrets.py, please add them there!")
     raise
 
-# Get global variables
-try:
-    import globals
-except ImportError:
-    print("Missing globals.py file")
-    raise
-
 class Communicator:
     def __init__(self, matrixportal, message_handler):
         self.matrixportal = matrixportal
         self.message_handler = message_handler
         self.matrixportal.network.connect()
         MQTT.set_socket(socket, self.matrixportal.network._wifi.esp)
-        self.client = MQTT.MQTT(broker=secrets["broker"], port=1883, is_ssl=False)
+        # self.client = MQTT.MQTT(broker=secrets["broker"], port=secrets["port"], is_ssl=False)
+        self.client = MQTT.MQTT(broker=secrets["broker"], port=secrets["port"],
+            username=secrets["user"], password=secrets["pass"], is_ssl=False)
         self.client.on_connect = connect
         self.client.on_disconnect = disconnected
         self.client.on_subscribe = subscribe
@@ -84,14 +76,14 @@ class Communicator:
 def connect(client, userdata, flags, rc):
     # This function will be called when the client is connected
     # successfully to the broker.
-    print("Connected to MQTT Broker!")
+    # print("Connected to MQTT Broker!")
     #print("Flags: {0}\n RC: {1}".format(flags, rc))
     return
 
 
 def disconnected(client, userdata, rc):
     # This method is called when the client is disconnected
-    print("Disconnected from MQTT Broker!")
+    # print("Disconnected from MQTT Broker!")
     return
 
 
@@ -105,4 +97,3 @@ def publish(client, userdata, topic, pid):
     # This method is called when the client publishes data to a feed.
     # print("Published to {0} with PID {1}".format(topic, pid))
     return
-
