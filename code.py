@@ -5,6 +5,9 @@
 #               http://donstechstuff.com/
 # github:       https://github.com/dnkorte/
 #
+# documentation:full project documentation at
+#               https://donstechstuff.com/mqtt_stopwatch/index.php
+#
 # Module: code.py
 #
 # MIT License
@@ -34,7 +37,7 @@
 #
 #   stopwatch/start         (starts timer)
 #   stopwatch/stop          (stops timer)
-
+#
 #   stopwatch/clear         (clears the timer display to 0:00,
 #                           (and displays title banners on right side
 #                           (title banner content can be changed in the config.welcome_banner_1
@@ -70,29 +73,16 @@
 # in addition to this code.py module, the program needs the following modules
 # to be in the root directory:
 #   (code.py)
-#   colors.py
 #   device_communicator.py
+#   colors.py
 #   globals.py
+#   config.py
 #
 #   secrets.py  (standard adafruit format, requires at least these parameters:
 #               (ssid, password, broker (could be IP address or hostname), port (usually 1883)
 #               (if your mqtt broker requires authentication it also needs 'user' and 'pass'
 #
-# ============== secrets.py should look something like this =============
-# (if the broker does not require authentication, the 'user' and 'pass' values
-#  may be empty strings, but they must be present)
-# ========================================================================
-#       secrets = {
-#           'ssid' : '_your_ssid_',
-#           'password' : '_your_network_password',
-#           'timezone' : "America/Detroit", # http://worldtimeapi.org/timezones
-#           'broker' : '192.168.86.234',
-#           'port' : 1883,
-#           'user' : '_your_mqtt_broker_username_',
-#           'pass' : '_your_mqtt_broker_password_'
-#       }
-# =============  end of sample secrets.py ===============================
-#
+# 
 # additionally, this requires the following adafruit libraries in the "lib" folder
 #   (note that those with .mpy extension are files, the others are complete folders)
 #   adafruit_bus_device
@@ -190,7 +180,7 @@ def message_handler(client, topic, message):
             mode = temp[0]
             status = temp[1]
             if len(mode) > 12:
-                splitmode = mode.split(" ")
+                splitmode = mode.split(" ", 1)
                 mode1_text.text = splitmode[0]
                 mode2_text.text = splitmode[1]
             else:
@@ -225,19 +215,19 @@ def message_handler(client, topic, message):
 
     if config.want_specialty_cmds:
         if topic == topic_joyYL:
-            status_text.text = "Manually Driving"
+            status_text.text = config.specialty_banner
             status_text.color = color=colors.TFT_PURPLE
 
         elif topic == topic_joyXL:
-            status_text.text = "Manually Driving"
+            status_text.text = config.specialty_banner
             status_text.color = color=colors.TFT_PURPLE
 
         elif topic == topic_joyYR:
-            status_text.text = "Manually Driving"
+            status_text.text = config.specialty_banner
             status_text.color = color=colors.TFT_PURPLE
 
         elif topic == topic_joyXR:
-            status_text.text = "Manually Driving"
+            status_text.text = config.specialty_banner
             status_text.color = color=colors.TFT_PURPLE
 
     if topic == topic_battvolts:
@@ -311,5 +301,4 @@ while True:
         next_clock_tick = time.monotonic() + 1.0
 
     time.sleep(0.100)
-
 

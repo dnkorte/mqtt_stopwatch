@@ -8,6 +8,7 @@ challenge_done_message = "Challenge Done"
 challenge_started_message = "Challenge Started"
 welcome_banner_1 = "PiWars 2022"
 welcome_banner_2 = "Barn Rats"
+specialty_banner = "Manual Driving"
 
 warning_time = 239      # after this many seconds, clock turns orange
 too_long_time = 299     # after this many seconds, clock turns red

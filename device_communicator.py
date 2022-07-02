@@ -5,6 +5,9 @@
 #               http://donstechstuff.com/
 # github:       https://github.com/dnkorte/
 #
+# documentation:full project documentation at
+#               https://donstechstuff.com/mqtt_stopwatch/index.php
+#
 # Module: device_communicator.py
 #
 # MIT License
@@ -56,9 +59,11 @@ class Communicator:
         self.message_handler = message_handler
         self.matrixportal.network.connect()
         MQTT.set_socket(socket, self.matrixportal.network._wifi.esp)
+
         # self.client = MQTT.MQTT(broker=secrets["broker"], port=secrets["port"], is_ssl=False)
         self.client = MQTT.MQTT(broker=secrets["broker"], port=secrets["port"],
             username=secrets["user"], password=secrets["pass"], is_ssl=False)
+        
         self.client.on_connect = connect
         self.client.on_disconnect = disconnected
         self.client.on_subscribe = subscribe
