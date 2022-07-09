@@ -1,7 +1,7 @@
 # MiniRobot Chassis Generator
 
 <h1 align="center">
-	<img width="853" src="https://github.com/dnkorte/minirobot_chassis/blob/master/pictures/stopwatch.jpg" alt="picture of stopwatch display"><br>MQTT Stopwatch
+	<img width="853" src="https://github.com/dnkorte/mqtt_stopwatch/blob/master/pictures/stopwatch.jpg" alt="picture of stopwatch display"><br>MQTT Stopwatch
 </h1>
 
 
